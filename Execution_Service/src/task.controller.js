@@ -14,10 +14,9 @@ router.post("/execute", async (req, res) => {
         var taskDefinitionId = Number(req.body.taskDefinitionId) || 0;
         console.log(`taskDefinitionId: ${taskDefinitionId}`);
 
-        const result = await oracleService.getPrice("ETHUSDT");
-        result.price = req.body.fakePrice || result.price;
+        const result = await oracleService.getPrice();
         const cid = await dalService.publishJSONToIpfs(result);
-        const data = "hello";
+        const data = "Uniswap V3 Pool Data";
         await dalService.sendTask(cid, data, taskDefinitionId);
         return res.status(200).send(new CustomResponse({proofOfTask: cid, data: data, taskDefinitionId: taskDefinitionId}, "Task executed successfully"));
     } catch (error) {
