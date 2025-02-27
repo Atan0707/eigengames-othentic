@@ -12,10 +12,9 @@ const TaskExecutor = () => {
     const [validationResult, setValidationResult] = useState(null);
     const [proofOfTask, setProofOfTask] = useState('');
 
-    const executeTask = async (taskDefinitionId, fakePrice) => {
+    const executeTask = async (taskDefinitionId) => {
         const response = await axios.post(`${API_BASE_URL}/task/execute`, {
             taskDefinitionId,
-            fakePrice,
         });
         return response.data;
     };
@@ -38,7 +37,15 @@ const TaskExecutor = () => {
             }
         } catch (error) {
             console.error("Failed to execute task:", error);
-            setExecutionResult({ error: error.response?.data?.message || error.message });
+            const errorMessage = error.response?.data?.message || error.message;
+            // Check for specific error types
+            if (errorMessage.includes('TaskDefinitionNotFound')) {
+                setExecutionResult({ 
+                    error: `Task ID ${taskDefinitionId} does not exist. Please make sure to use a valid task definition ID.`
+                });
+            } else {
+                setExecutionResult({ error: errorMessage });
+            }
         }
     };
 
