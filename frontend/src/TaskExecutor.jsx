@@ -2,8 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import './TaskExecutor.css';
 
-const API_BASE_URL = 'http://localhost:4003';
-const VALIDATION_SERVICE_URL = 'http://localhost:4002';
+const API_BASE_URL = 'http://167.99.77.31:4003';
+const VALIDATION_SERVICE_URL = 'http://167.99.77.31:4002';
 
 const TaskExecutor = () => {
     const [taskDefinitionId, setTaskDefinitionId] = useState('');
